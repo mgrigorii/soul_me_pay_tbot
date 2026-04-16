@@ -74,6 +74,8 @@ def build_confirmation_text(lesson_data: dict[str, Any]) -> str:
     students = lesson_data["students"]
 
     total_amount = round(sum(student["final_amount"] for student in students), 2)
+    teacher_amount = round(total_amount * TEACHER_SHARE, 2)
+    share_percent = int(TEACHER_SHARE * 100)
 
     lines = [
         "Проверьте данные",
@@ -91,9 +93,8 @@ def build_confirmation_text(lesson_data: dict[str, Any]) -> str:
 
     lines.extend([
         "",
-        f"Итого учеников: {students_count}",
-        f"Базовая сумма: {sum(s['base_amount'] for s in students):.2f}",
-        f"Общая сумма: {total_amount:.2f}",
+        f"Общий итог: {total_amount:.2f}",
+        f"К оплате учителю ({share_percent}%): {teacher_amount:.2f}",
     ])
 
     return "\n".join(lines)
