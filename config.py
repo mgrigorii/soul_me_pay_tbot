@@ -16,6 +16,7 @@ REPORT_CHAT_ID_RAW = os.getenv("REPORT_CHAT_ID", "").strip()
 REPORT_CHAT_ID = int(REPORT_CHAT_ID_RAW) if REPORT_CHAT_ID_RAW.lstrip("-").isdigit() else None
 
 BASE_AMOUNT_DEFAULT = 150.0
+TEACHER_SHARE = 0.60
 
 PAYMENT_METHODS = [
     "Наличные",
@@ -28,8 +29,8 @@ PAYMENT_METHODS = [
 PAYMENT_COEFFICIENTS = {
     "Наличные": 1.0,
     "PIX": 1.0,
-    "Карта": 1.0,       # позже можно поменять, например, на 0.95
-    "Абонемент": 1.0,   # позже можно настроить отдельно
+    "Карта": 1.0,
+    "Абонемент": 1.0,
     "Бесплатно": 0.0,
 }
 
