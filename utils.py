@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Any
-
+from config import TEACHER_SHARE
 
 def is_allowed_user(user_id: int, allowed_user_ids: set[int]) -> bool:
     if not allowed_user_ids:
@@ -41,6 +41,7 @@ def build_lesson_report(lesson_data: dict[str, Any]) -> str:
     students = lesson_data["students"]
 
     total_amount = round(sum(student["final_amount"] for student in students), 2)
+    teacher_amount = round(total_amount * TEACHER_SHARE, 2)
 
     lines = [
         "Отчет по уроку",
@@ -59,7 +60,8 @@ def build_lesson_report(lesson_data: dict[str, Any]) -> str:
     lines.extend([
         "",
         f"Всего учеников: {len(students)}",
-        f"Общая сумма: {total_amount:.2f}",
+        f"Общий итог: {total_amount:.2f}",
+        f"К оплате учителю (60% от финальной суммы): {teacher_amount:.2f}",
     ])
 
     return "\n".join(lines)
