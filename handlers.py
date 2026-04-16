@@ -1,4 +1,5 @@
 from datetime import datetime
+import uuid
 
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
@@ -34,7 +35,11 @@ router = Router()
 
 async def start_new_lesson_flow(message: Message, state: FSMContext) -> None:
     await state.clear()
+
+    lesson_id = str(uuid.uuid4())
+    
     await state.update_data(
+        lesson_id=lesson_id,   # 👈 ВОТ ЭТО ДОБАВИЛИ
         lesson_date=None,
         lesson_time=None,
         students_count=0,
