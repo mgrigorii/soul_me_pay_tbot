@@ -1,42 +1,41 @@
-from aiogram.types import (
-    ReplyKeyboardMarkup,
-    KeyboardButton,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-)
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from config import TIME_OPTIONS, PAYMENT_METHODS
+from config import TIME_OPTIONS, PAYMENT_METHODS, STUDENTS_COUNT_OPTIONS
 
 
-def date_mode_keyboard() -> ReplyKeyboardMarkup:
-    return ReplyKeyboardMarkup(
-        keyboard=[
-            [
-                KeyboardButton(text="Сегодня"),
-                KeyboardButton(text="Ввести дату"),
-            ]
-        ],
-        resize_keyboard=True,
-        one_time_keyboard=True,
+def date_mode_keyboard() -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    builder.row(
+        InlineKeyboardButton(text="Сегодня", callback_data="date_mode:today"),
+        InlineKeyboardButton(text="Ввести дату", callback_data="date_mode:manual"),
     )
+    return builder.as_markup()
 
 
-def time_keyboard() -> ReplyKeyboardMarkup:
-    return ReplyKeyboardMarkup(
-        keyboard=[
-            [KeyboardButton(text=t) for t in TIME_OPTIONS],
-            [KeyboardButton(text="Ввести вручную")],
-        ],
-        resize_keyboard=True,
-        one_time_keyboard=True,
+def time_keyboard() -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    for time_value in TIME_OPTIONS:
+        builder.add(
+            InlineKeyboardButton(text=time_value, callback_data=f"time:{time_value}")
+        )
+    builder.adjust(2)
+    builder.row(
+        InlineKeyboardButton(text="Ввести вручную", callback_data="time:manual")
     )
+    return builder.as_markup()
 
 
-def remove_keyboard() -> ReplyKeyboardMarkup:
-    return ReplyKeyboardMarkup(
-        keyboard=[],
-        resize_keyboard=True
+def students_count_keyboard() -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    for count in STUDENTS_COUNT_OPTIONS:
+        builder.add(
+            InlineKeyboardButton(text=count, callback_data=f"students_count:{count}")
+        )
+    builder.adjust(5)
+    builder.row(
+        InlineKeyboardButton(text="Ввести", callback_data="students_count:manual")
     )
+    return builder.as_markup()
 
 
 def payment_keyboard() -> InlineKeyboardMarkup:
