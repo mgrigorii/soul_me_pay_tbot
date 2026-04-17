@@ -8,10 +8,10 @@ from handlers import router
 
 
 async def main() -> None:
-    logging.basicConfig(level=logging.INFO)
-
     if not BOT_TOKEN:
         raise ValueError("BOT_TOKEN не найден в .env")
+
+    await asyncio.sleep(3)  # даём старому инстансу умереть
 
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
